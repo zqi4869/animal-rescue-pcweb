@@ -1,0 +1,15 @@
+.login-container {
+    background-image: url("../../assets/bg.jfif");
+    background-repeat: round;
+    height: 100vh;
+}
+
+.login-form{
+    width: 268px;
+    right: 22%;
+    position: absolute;
+    top: 46%;
+}
+.login-form-button {
+    width: 100%;
+}

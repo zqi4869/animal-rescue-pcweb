@@ -1,0 +1,6 @@
+.avatar-col {
+    border-right: solid 2px #e5e5e5;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
