@@ -1,124 +1,111 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Animals.css';
 import { SaveOutlined, } from '@ant-design/icons';
 import Uploader from "../../components/Uploader.jsx";
-import { Col, Row, Card, Button, Form, Input, message } from 'antd';
+import { Col, Row, Card, Button, Form, Input, message, Space, Table, Tag } from 'antd';
+const { Column } = Table;
 const { Meta } = Card;
-import { fetchPut } from "../../utils/request.js";
+import { fetchGet, getImageUri } from "../../utils/request.js";
+const data = [
+  {
+    "id": "6720a282ea8893dbf002d4a4",
+    "gender": "Male",
+    "name": "Small kity",
+    "no": "100001",
+    "age": "3个月",
+    "city": "成都",
+    "label": "上门领养 按时疫苗 适龄绝育",
+    "remark": "家猫的崽崽",
+    "story": "它是在2年前，在xxx出生的，性格温顺，可以自己吃饭睡觉啥的。它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。它很聪明，也很可爱，可爱到你会想把它抱起来亲一口。它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。",
+    "cover_url": "animal-1.png",
+    "story_img_url": "animal-1.png",
+    "adopted": true
+  }
+];
 
-const HomePage = () => {
-  const [loginUser, setLoginUser] = useState({
-    username: 'admin',
-    first_name: 'John',
-    last_name: 'Doe',
-    role: 'admin',
-    avatar: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-    city: 'New York',
-    phone: '123-456-7890',
-  });
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    // fetchPut(`/api/users/${loginUser.username}`, values)
+const AnimalsPage = () => {
+  const [form] = Form.useForm();
+  const [loginUser, setLoginUser] = useState();
+
+  const onQuery = () => {
+    const no = form.getFieldsValue('no')
+    // fetchGet('/animal/all', data => {
+    //   console.log(data)
+    // });
   };
-  const onFinishFailed = (errorInfo) => {
-    message.error(errorInfo)
-  };
-  const onUploadSuccess = (imageName) => {
-    setLoginUser({...loginUser, avatar: imageName});
-  };
+
+  useEffect(() => {
+    // query()
+  }, []);
 
   return (
     <>
-      <Row gutter={20}>
-        <Col span={8} className="avatar-col">
-          <Card
-            hoverable
-            style={{ width: 240, }}
-            cover={<img src={loginUser.avatar} />}>
-            <Meta title={loginUser.first_name} description={loginUser.role} />
-          </Card>
-        </Col>
-        <Col span={16}>
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={loginUser}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item label="Username" name="username">
-              <Input disabled/>
-            </Form.Item>
+      <Form layout="inline" form={form}>
+        <Form.Item label="No" name="no">
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button color="default" variant="solid" onClick={onQuery}>Query</Button>
+        </Form.Item>
+      </Form>
 
-            <Form.Item
-              label="First Name"
-              name="first_name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input first name!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+      <br />
 
-            <Form.Item
-              label="Last Name"
-              name="last_name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input last name!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="City" name="city">
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Phone" name="phone">
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Avatar" name="avatar">
-              <Uploader onUploadSuccess={onUploadSuccess} />
-            </Form.Item>
-
-            <Form.Item
-              label="New password"
-              name="password"
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+      <Table dataSource={data} rowKey="id">
+        <Column title="No." dataIndex="no" key="no"/>
+        <Column
+          title="Cover Image"
+          dataIndex="cover_url"
+          key="cover_url"
+          render={(url) => <img className="cover-img" src={getImageUri(url)} />}
+        />
+        <Column title="Name" dataIndex="name" key="name"/>
+        <Column title="Age" dataIndex="age" key="age"/>
+        <Column title="Gender" dataIndex="gender" key="gender"/>
+        <Column title="City" dataIndex="city" key="city"/>
+        <Column
+          title="Label"
+          dataIndex="label"
+          key="label"
+          render={(label) => (
+            <>
+              {label.split(' ').map((tag) => {
+                return (
+                  <Tag color='volcano' key={tag}>
+                    {tag}
+                  </Tag>
+                );
+              })}
+            </>
+          )}
+        />
+        <Column title="Remark" dataIndex="remark" key="remark"/>
+        <Column title="Story" dataIndex="story" key="story" />
+        <Column
+          title="Adopted"
+          dataIndex="adopted"
+          key="adopted"
+          render={(adopted) => (
+            <>
+              {
+                adopted ? <Tag color='green'>Yes</Tag> : <Tag color='volcano'>No</Tag>
+              }
+            </>
+          )}
+        />
+        <Column
+          title="Action"
+          key="action"
+          render={(_, record) => (
+            <Space size="middle">
+              <Button color="primary" variant="solid" size="small">Edit</Button>
+              <Button color="danger" variant="solid" size="small">Delete</Button>
+            </Space>
+          )}
+        />
+      </Table>
     </>
   );
 };
 
-export default HomePage;
+export default AnimalsPage;

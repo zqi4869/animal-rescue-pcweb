@@ -4,7 +4,7 @@ import { SaveOutlined, } from '@ant-design/icons';
 import Uploader from "../../components/Uploader.jsx";
 import { Col, Row, Card, Button, Form, Input, message } from 'antd';
 const { Meta } = Card;
-import { fetchPut } from "../../utils/request.js";
+import { fetchPut, getImageUri } from "../../utils/request.js";
 
 const HomePage = () => {
   const [loginUser, setLoginUser] = useState({
@@ -12,7 +12,7 @@ const HomePage = () => {
     first_name: 'John',
     last_name: 'Doe',
     role: 'admin',
-    avatar: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
+    avatar: 'avatar-1.png',
     city: 'New York',
     phone: '123-456-7890',
   });
@@ -34,7 +34,7 @@ const HomePage = () => {
           <Card
             hoverable
             style={{ width: 240, }}
-            cover={<img src={loginUser.avatar} />}>
+            cover={<img src={getImageUri(loginUser.avatar)} />}>
             <Meta title={loginUser.first_name} description={loginUser.role} />
           </Card>
         </Col>
