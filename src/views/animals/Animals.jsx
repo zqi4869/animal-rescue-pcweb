@@ -102,7 +102,7 @@ const AnimalsPage = () => {
             <Input/>
           </Form.Item>
           <Form.Item label="Label" name="label" rules={rules}>
-            <Input placeholder="Multiple label Spaces separated"/>
+            <Input placeholder="Multiple label # separated"/>
           </Form.Item>
           <Form.Item label="Remark" name="remark">
             <Input.TextArea rows={2}/>
@@ -146,9 +146,10 @@ const AnimalsPage = () => {
           title="Label"
           dataIndex="label"
           key="label"
+          width={160}
           render={(label) => (
             <>
-              {label.split(' ').map((tag) => {
+              {label.split('#').map((tag) => {
                 return (
                   <Tag color='volcano' key={tag}>
                     {tag}
@@ -159,7 +160,7 @@ const AnimalsPage = () => {
           )}
         />
         <Column title="Remark" dataIndex="remark" key="remark"/>
-        <Column title="Story" dataIndex="story" key="story"/>
+        <Column title="Story" dataIndex="story" key="story" />
         <Column
           title="Adopted"
           dataIndex="adopted"

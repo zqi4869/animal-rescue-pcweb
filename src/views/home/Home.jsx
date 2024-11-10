@@ -29,11 +29,13 @@ const HomePage = () => {
     </svg>
   );
 
-  const clickMenu = (route) => {
-    navigate(route)
+  const onClickMenu = ({ item, key }) => {
+    navigate(key)
   };
 
   const onLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("loginUser");
     navigate('/')
   };
 
@@ -46,21 +48,22 @@ const HomePage = () => {
         <Menu
           theme="dark"
           mode="inline"
+          onClick={onClickMenu}
           items={[
             {
-              key: '1',
+              key: '/home/profile',
               icon: <UserOutlined />,
-              label: <div onClick={() => clickMenu('/home/profile')}>Your Profile</div>,
+              label: 'Your Profile',
             },
             {
-              key: '2',
+              key: '/home/animals',
               icon: <Icon component={HeartSvg} />,
-              label: <div onClick={() => clickMenu('/home/animals')}>Animals</div>,
+              label: 'Animals',
             },
             {
-              key: '3',
+              key: '/home/adopt',
               icon: <FormOutlined />,
-              label: <div onClick={() => clickMenu('/home/adopt')}>Adopt Order</div>,
+              label: 'Adopt Order',
             },
           ]}
         />
