@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Adopt.css';
 import { SendOutlined, SearchOutlined } from '@ant-design/icons';
-import Uploader from "../../components/Uploader.jsx";
-import { Col, Row, Card, Button, Form, Input, message, Space, Table, Tag } from 'antd';
+import { Button, Form, Input, message, Space, Table } from 'antd';
 const { Column } = Table;
 import { fetchGet, getImageUri } from "../../utils/request.js";
 
@@ -12,7 +11,7 @@ const AdoptPage = () => {
   const [tableData, setTableData] = useState([]);
 
   const onQuery = () => {
-    const { no } = form.getFieldsValue()
+    const { no } = form.getFieldsValue();
     fetchGet('/adoption/all', data => {
       if(no) {
         setTableData(data.filter(item => item.id.includes(no)))
@@ -20,6 +19,10 @@ const AdoptPage = () => {
         setTableData(data)
       }
     });
+  };
+
+  const onDeliver = () => {
+    message.success('Delivered successfully!');
   };
 
   useEffect(() => {
@@ -66,7 +69,7 @@ const AdoptPage = () => {
           key="action"
           render={(_, record) => (
             <Space>
-              <Button icon={<SendOutlined />} color="danger" variant="solid" size="small">Deliver</Button>
+              <Button icon={<SendOutlined />} color="danger" variant="solid" size="small" onClick={onDeliver}>Deliver</Button>
             </Space>
           )}
         />
