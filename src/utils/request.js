@@ -76,7 +76,7 @@ function fetchPut(routeName, dataJson, success) {
 
 
 function fetchGet(routeName, success) {
-  return fetch(baseUrl + routeName)
+  fetch(baseUrl + routeName)
     .then(response => response.json())
     .then(data => {
       if (data.code === 0) {

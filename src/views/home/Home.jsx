@@ -7,7 +7,7 @@ import Icon, {
   FormOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Button, Layout, Menu, theme } from 'antd';
+import { Button, Layout, Menu, theme, Space } from 'antd';
 import HomeImg from '../../assets/home.jpg';
 
 const { Header, Sider, Content } = Layout;
@@ -29,7 +29,11 @@ const HomePage = () => {
 
   const clickMenu = (route) => {
     navigate(route)
-  }
+  };
+
+  const onLogout = () => {
+    navigate('/')
+  };
 
   return (
     <Layout className="home-container">
@@ -54,13 +58,20 @@ const HomePage = () => {
             {
               key: '3',
               icon: <FormOutlined />,
-              label: <div onClick={() => clickMenu('/home/adopt')}>Adopt Request</div>,
+              label: <div onClick={() => clickMenu('/home/adopt')}>Adopt Order</div>,
             },
           ]}
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header style={{
+          padding: 0,
+          background: colorBgContainer,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingRight: '30px',
+        }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -71,6 +82,11 @@ const HomePage = () => {
               height: 64,
             }}
           />
+          <Space>
+            <UserOutlined />
+            <div>Welcome, zhang</div>
+            <a onClick={onLogout}>Logout</a>
+          </Space>
         </Header>
         <Content
           style={{
@@ -79,6 +95,7 @@ const HomePage = () => {
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflow: 'auto',
           }}
         >
           {

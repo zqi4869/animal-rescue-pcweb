@@ -1,41 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import './Animals.css';
-import { SaveOutlined, } from '@ant-design/icons';
+import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Uploader from "../../components/Uploader.jsx";
 import { Col, Row, Card, Button, Form, Input, message, Space, Table, Tag } from 'antd';
 const { Column } = Table;
-const { Meta } = Card;
 import { fetchGet, getImageUri } from "../../utils/request.js";
-const data = [
-  {
-    "id": "6720a282ea8893dbf002d4a4",
-    "gender": "Male",
-    "name": "Small kity",
-    "no": "100001",
-    "age": "3个月",
-    "city": "成都",
-    "label": "上门领养 按时疫苗 适龄绝育",
-    "remark": "家猫的崽崽",
-    "story": "它是在2年前，在xxx出生的，性格温顺，可以自己吃饭睡觉啥的。它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。它很聪明，也很可爱，可爱到你会想把它抱起来亲一口。它喜欢玩耍，喜欢跟小朋友一起玩，也喜欢跟其他小猫玩。",
-    "cover_url": "animal-1.png",
-    "story_img_url": "animal-1.png",
-    "adopted": true
-  }
-];
 
 const AnimalsPage = () => {
   const [form] = Form.useForm();
   const [loginUser, setLoginUser] = useState();
+  const [tableData, setTableData] = useState([]);
 
   const onQuery = () => {
-    const no = form.getFieldsValue('no')
-    // fetchGet('/animal/all', data => {
-    //   console.log(data)
-    // });
+    const { no} = form.getFieldsValue()
+    fetchGet('/animal/all', data => {
+      if(no) {
+        setTableData(data.filter(item => item.no.includes(no)))
+      }else{
+        setTableData(data)
+      }
+    });
   };
 
   useEffect(() => {
-    // query()
+    onQuery()
   }, []);
 
   return (
@@ -45,13 +33,13 @@ const AnimalsPage = () => {
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button color="default" variant="solid" onClick={onQuery}>Query</Button>
+          <Button icon={<SearchOutlined />} color="default" variant="solid" onClick={onQuery}>Query</Button>
         </Form.Item>
       </Form>
 
       <br />
 
-      <Table dataSource={data} rowKey="id">
+      <Table dataSource={tableData} rowKey="id">
         <Column title="No." dataIndex="no" key="no"/>
         <Column
           title="Cover Image"
@@ -88,7 +76,9 @@ const AnimalsPage = () => {
           render={(adopted) => (
             <>
               {
-                adopted ? <Tag color='green'>Yes</Tag> : <Tag color='volcano'>No</Tag>
+                adopted ?
+                  <Tag color='green' style={{fontWeight: 'bold'}}>Yes</Tag> :
+                  <Tag color='volcano' style={{fontWeight: 'bold'}}>No</Tag>
               }
             </>
           )}
@@ -97,9 +87,9 @@ const AnimalsPage = () => {
           title="Action"
           key="action"
           render={(_, record) => (
-            <Space size="middle">
-              <Button color="primary" variant="solid" size="small">Edit</Button>
-              <Button color="danger" variant="solid" size="small">Delete</Button>
+            <Space>
+              <Button icon={<EditOutlined />} color="primary" variant="solid" size="small">Edit</Button>
+              <Button icon={<DeleteOutlined />} color="danger" variant="solid" size="small">Delete</Button>
             </Space>
           )}
         />

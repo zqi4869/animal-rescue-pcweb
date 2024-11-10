@@ -35,7 +35,7 @@ const HomePage = () => {
             hoverable
             style={{ width: 240, }}
             cover={<img src={getImageUri(loginUser.avatar)} />}>
-            <Meta title={loginUser.first_name} description={loginUser.role} />
+            <Meta title={loginUser.first_name} description={'Role: ' + loginUser.role} />
           </Card>
         </Col>
         <Col span={16}>
