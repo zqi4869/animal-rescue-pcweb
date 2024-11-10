@@ -13,6 +13,11 @@ const GlobalStorage = (key, dataType = 'string') => {
 
 const getLoginUser = () => {
   return GlobalStorage('loginUser', 'json')
-}
+};
 
-export { GlobalStorage, getLoginUser };
+const saveLoginUser = (user) => {
+  localStorage.setItem('loginUser', JSON.stringify(user))
+};
+
+
+export { GlobalStorage, getLoginUser, saveLoginUser };

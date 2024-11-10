@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
+import {getImageUri} from '../utils/request.js';
 
 const Uploader = ({ value, onUploadSuccess }) => {
   const [uploadImageName, setUploadImageName] = useState(null);
 
   const uploadProps = {
     name: 'file',
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    action: getImageUri('user/pc/upload'),
     headers: {
       // authorization: 'authorization-text',
     },
@@ -15,12 +16,12 @@ const Uploader = ({ value, onUploadSuccess }) => {
     onChange(info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList);
-        const imageName = info.file.name
-        onUploadSuccess(imageName)
-        setUploadImageName(imageName)
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
+        const imageName = info.file.response.data
+        onUploadSuccess(imageName)
+        setUploadImageName(imageName)
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }

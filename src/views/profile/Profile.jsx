@@ -5,20 +5,20 @@ import Uploader from "../../components/Uploader.jsx";
 import { Col, Row, Card, Button, Form, Input, message } from 'antd';
 const { Meta } = Card;
 import { fetchPut, getImageUri } from "../../utils/request.js";
+import { getLoginUser, saveLoginUser } from "../../utils/store.js";
 
 const HomePage = () => {
-  const [loginUser, setLoginUser] = useState({
-    username: 'admin',
-    first_name: 'John',
-    last_name: 'Doe',
-    role: 'admin',
-    avatar: 'avatar-1.png',
-    city: 'New York',
-    phone: '123-456-7890',
-  });
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    // fetchPut(`/api/users/${loginUser.username}`, values)
+  const [loginUser, setLoginUser] = useState(getLoginUser());
+
+  const onFinish = (form) => {
+    const newUser = {
+      ...loginUser,
+      ...form,
+    }
+    fetchPut(`/user/update`, newUser, () => {
+      message.success('Update profile successfully')
+      saveLoginUser(newUser)
+    })
   };
   const onFinishFailed = (errorInfo) => {
     message.error(errorInfo)
@@ -75,12 +75,6 @@ const HomePage = () => {
             <Form.Item
               label="Last Name"
               name="last_name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input last name!',
-                },
-              ]}
             >
               <Input />
             </Form.Item>
@@ -93,13 +87,17 @@ const HomePage = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item label="Avatar" name="avatar">
+            <Form.Item label="Avatar">
               <Uploader onUploadSuccess={onUploadSuccess} />
+            </Form.Item>
+
+            <Form.Item label="Address" name="address">
+              <Input />
             </Form.Item>
 
             <Form.Item
               label="New password"
-              name="password"
+              name="newPassword"
             >
               <Input.Password />
             </Form.Item>

@@ -3,6 +3,7 @@ import './Login.css';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom'
 import { simplePost, fetchGet } from "../../utils/request.js";
+import { saveLoginUser } from "../../utils/store.js";
 
 const LoginPage = () => {
     let navigate = useNavigate();
@@ -18,7 +19,7 @@ const LoginPage = () => {
         localStorage.setItem('token', data);
 
         fetchGet('/user/info?username='+form.username, (loginUser) => {
-          localStorage.setItem('loginUser', JSON.stringify(loginUser))
+          saveLoginUser(loginUser)
         })
       })
     };
