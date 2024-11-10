@@ -11,4 +11,8 @@ const GlobalStorage = (key, dataType = 'string') => {
   }
 };
 
-export default GlobalStorage;
+const getLoginUser = () => {
+  return GlobalStorage('loginUser', 'json')
+}
+
+export { GlobalStorage, getLoginUser };

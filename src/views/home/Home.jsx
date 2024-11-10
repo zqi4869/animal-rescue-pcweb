@@ -9,6 +9,7 @@ import Icon, {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme, Space } from 'antd';
 import HomeImg from '../../assets/home.jpg';
+import {getLoginUser} from '../../utils/store.js';
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,6 +18,7 @@ const HomePage = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [loginUser, setLoginUser] = useState(getLoginUser());
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -84,7 +86,7 @@ const HomePage = () => {
           />
           <Space>
             <UserOutlined />
-            <div>Welcome, zhang</div>
+            <div>Welcome, <b>{loginUser.first_name}</b></div>
             <a onClick={onLogout}>Logout</a>
           </Space>
         </Header>

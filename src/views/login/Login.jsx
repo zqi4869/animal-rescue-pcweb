@@ -2,13 +2,25 @@ import React from 'react';
 import './Login.css';
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom'
+import { simplePost, fetchGet } from "../../utils/request.js";
 
 const LoginPage = () => {
     let navigate = useNavigate();
 
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    const onFinish = (form) => {
+      console.log('Received values of form: ', form);
+      simplePost('/login', {
+        username: form.username,
+        password: form.password,
+        role: 'admin'
+      }, (data) => {
         navigate('/home');
+        localStorage.setItem('token', data);
+
+        fetchGet('/user/info?username='+form.username, (loginUser) => {
+          localStorage.setItem('loginUser', JSON.stringify(loginUser))
+        })
+      })
     };
 
     return (
@@ -16,7 +28,7 @@ const LoginPage = () => {
         <Form
           name="normal_login"
           className="login-form"
-          initialValues={{ remember: true }}
+          initialValues={{}}
           onFinish={onFinish}>
           <Form.Item name="username" rules={[{ required: true, message: 'Please input username!' }]}>
             <Input placeholder="Username" />

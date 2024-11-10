@@ -1,4 +1,4 @@
-import GlobalStorage from "./store";
+import { GlobalStorage} from "./store";
 import { message } from 'antd';
 
 const baseUrl = 'http://192.168.1.169:8080';
