@@ -87,7 +87,7 @@ const AnimalsPage = () => {
             <Input/>
           </Form.Item>
           <Form.Item label="Cover image" name="cover_url" rules={rules}>
-            <Uploader/>
+            <Uploader onUploadSuccess={(imgName) => form.setFieldsValue({cover_url: imgName})}/>
           </Form.Item>
           <Form.Item label="Age" name="age" rules={rules}>
             <Input/>
@@ -111,7 +111,7 @@ const AnimalsPage = () => {
             <Input.TextArea rows={4}/>
           </Form.Item>
           <Form.Item label="Story image" name="story_img_url">
-            <Uploader/>
+            <Uploader onUploadSuccess={(imgName) => form.setFieldsValue({story_img_url: imgName})}/>
           </Form.Item>
         </Form>
       </Modal>
@@ -160,7 +160,14 @@ const AnimalsPage = () => {
           )}
         />
         <Column title="Remark" dataIndex="remark" key="remark"/>
-        <Column title="Story" dataIndex="story" key="story" />
+        <Column
+          title="Story"
+          dataIndex="story"
+          key="story"
+          render={(text) => (
+            <div style={{ width:"200px", wordBreak:"break-all" }}>{text}</div>
+          )}
+        />
         <Column
           title="Adopted"
           dataIndex="adopted"
