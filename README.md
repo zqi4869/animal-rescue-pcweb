@@ -4,6 +4,8 @@ Provide a web platform for administrators to maintain the background, and can in
 # Technology
 This project is a front-end system based on Vite + React.js + Ant Design framework. Ant Design (AntD for short) is a set of React UI component library designed for enterprise applications, with its elegant design style and rich features, greatly improve the development efficiency and user experience.
 
+This project exchanges data with the backend Spring Boot service through AJAX.
+
 
 # Framework
 + react@18.3.1
