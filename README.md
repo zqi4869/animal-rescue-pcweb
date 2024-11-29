@@ -12,7 +12,6 @@ This project exchanges data with the backend Spring Boot service through AJAX.
 + antd@5.21.6
 + react-router-dom@6.28.0
 + vite@5.3.4
-+ React Router v6
 
 # Build & Run
 + `npm install`
